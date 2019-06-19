@@ -1,6 +1,14 @@
 import React from 'react';
-import { Text, View, FlatList, StyleSheet, YellowBox } from 'react-native';
+import {
+  Text,
+  View,
+  FlatList,
+  StyleSheet,
+  Platform,
+  YellowBox,
+} from 'react-native';
 import { createAppContainer, createStackNavigator } from 'react-navigation';
+import { createBrowserApp } from '@react-navigation/web';
 import { RectButton, ScrollView } from 'react-native-gesture-handler';
 
 import SwipeableTable from './swipeable';
@@ -31,8 +39,8 @@ YellowBox.ignoreWarnings([
 
 const SCREENS = {
   Rows: { screen: Rows, title: 'Table rows & buttons' },
-  Multitap: { screen: Multitap },
-  Draggable: { screen: Draggable },
+  Multitap: Multitap,
+  Draggable: Draggable,
   ScaleAndRotate: { screen: ScaleAndRotate, title: 'Scale, rotate & tilt' },
   ScaleAndRotateSimultaneously: {
     screen: doubleScalePinchAndRotate,
@@ -55,13 +63,13 @@ const SCREENS = {
     screen: Fling,
     title: 'Flinghandler',
   },
-  PanResponder: { screen: PanResponder },
+  PanResponder: PanResponder,
   Bouncing: { screen: Bouncing, title: 'Twist & bounce back animation' },
   // ChatHeads: {
   //   screen: ChatHeads,
   //   title: 'Chat Heads (no native animated support yet)',
   // },
-  Combo: { screen: ComboWithGHScroll },
+  Combo: ComboWithGHScroll,
   BottomSheet: {
     title: 'BottomSheet gestures interactions',
     screen: BottomSheet,
@@ -123,7 +131,7 @@ class MainScreenItem extends React.Component {
 
 const ExampleApp = createStackNavigator(
   {
-    Main: { screen: MainScreen },
+    Main: MainScreen,
     ...SCREENS,
     TouchableExample: {
       screen: TouchableExample,
@@ -132,6 +140,7 @@ const ExampleApp = createStackNavigator(
   },
   {
     initialRouteName: 'Main',
+    headerMode: 'screen',
   }
 );
 
@@ -156,4 +165,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default createAppContainer(ExampleApp);
+export default Platform.select({
+  default: () => createAppContainer(ExampleApp),
+  web: () => createBrowserApp(ExampleApp, { history: 'hash' }),
+})();

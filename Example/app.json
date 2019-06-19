@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "platforms": [
+      "web"
+    ],
+    "name": "GestureHandlerExample",
+    "slug": "gesturehandlerexample",
+    "version": "0.0.1"
+  }
+}
