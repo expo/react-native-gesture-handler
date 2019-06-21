@@ -1,6 +1,16 @@
 import React from 'react';
-import { Text, View, FlatList, StyleSheet, YellowBox } from 'react-native';
-import { createAppContainer, createStackNavigator } from 'react-navigation';
+import {
+  Text,
+  View,
+  FlatList,
+  Platform,
+  StyleSheet,
+  YellowBox,
+  TouchableOpacity,
+} from 'react-native';
+import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
+import { createBrowserApp } from '@react-navigation/web';
 import { RectButton, ScrollView } from 'react-native-gesture-handler';
 
 import SwipeableTable from './swipeable';
@@ -132,10 +142,16 @@ const ExampleApp = createStackNavigator(
   },
   {
     initialRouteName: 'Main',
+    ...Platform.select({
+      web: {
+        headerMode: 'screen',
+      },
+      default: {},
+    }),
   }
 );
 
-const styles = StyleSheet.create({
+const styles = {
   list: {
     backgroundColor: '#EFEFF4',
   },
@@ -154,6 +170,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#fff',
   },
+};
+
+const createApp = Platform.select({
+  web: config => createBrowserApp(config, { history: 'hash' }),
+  default: config => createAppContainer(config),
 });
 
-export default createAppContainer(ExampleApp);
+export default createApp(ExampleApp);

@@ -1,0 +1,16 @@
+{
+  "expo": {
+    "name": "GestureHandlerExample",
+    "slug": "gesturehandlerexample",
+    "version": "0.0.1",
+    "platforms": ["android", "ios", "web"],
+    "web": {
+      "build": {
+        "babel": {
+          "include": ["../"],
+          "root": "../"
+        }
+      }
+    }
+  }
+}
